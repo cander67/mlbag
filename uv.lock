@@ -1342,7 +1342,7 @@ wheels = [
 ]
 
 [[package]]
-name = "mlkit"
+name = "mlbag"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
@@ -1406,7 +1406,7 @@ requires-dist = [
     { name = "gensim", marker = "extra == 'nlp'", specifier = ">=4.3" },
     { name = "joblib", specifier = ">=1.3" },
     { name = "matplotlib", specifier = ">=3.8" },
-    { name = "mlkit", extras = ["sklearn", "torch", "tensorflow", "nlp", "viz", "bayesian"], marker = "extra == 'all'" },
+    { name = "mlbag", extras = ["sklearn", "torch", "tensorflow", "nlp", "viz", "bayesian"], marker = "extra == 'all'" },
     { name = "nltk", marker = "extra == 'nlp'", specifier = ">=3.8" },
     { name = "numpy", specifier = ">=1.26" },
     { name = "optuna", marker = "extra == 'bayesian'", specifier = ">=3.6" },

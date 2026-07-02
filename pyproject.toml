@@ -1,5 +1,5 @@
 [project]
-name = "mlkit"
+name = "mlbag"
 version = "0.1.0"
 description = "Personal toolkit for DS/ML/DL/NLP projects: seeding, run tracking, checkpointing, hyperparameter search, and evaluation."
 readme = "README.md"
@@ -21,7 +21,7 @@ tensorflow = ["tensorflow>=2.16"]
 nlp = ["nltk>=3.8", "gensim>=4.3", "transformers>=4.40"]
 viz = ["seaborn>=0.13", "umap-learn>=0.5"]
 bayesian = ["optuna>=3.6"]
-all = ["mlkit[sklearn,torch,tensorflow,nlp,viz,bayesian]"]
+all = ["mlbag[sklearn,torch,tensorflow,nlp,viz,bayesian]"]
 
 [dependency-groups]
 dev = ["ruff>=0.14", "pytest>=9.0", "pytest-cov>=7.0", "mypy>=1.19"]
@@ -31,7 +31,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/mlkit"]
+packages = ["src/mlbag"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
