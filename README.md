@@ -114,6 +114,8 @@ strategy, and results are persisted to the given `RunManager` when one is passed
 
 ### `mlbag.evaluation` — classification/regression metrics + artifacts
 
+Requires the `sklearn` extra.
+
 ```python
 from mlbag.evaluation import evaluate_classifier
 
