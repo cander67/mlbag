@@ -24,7 +24,7 @@ bayesian = ["optuna>=3.6"]
 all = ["mlbag[sklearn,torch,tensorflow,nlp,viz,bayesian]"]
 
 [dependency-groups]
-dev = ["ruff>=0.14", "pytest>=9.0", "pytest-cov>=7.0", "mypy>=1.19"]
+dev = ["ruff>=0.14", "pytest>=9.0", "pytest-cov>=7.0", "mypy>=1.19", "scikit-learn>=1.4"]
 
 [build-system]
 requires = ["hatchling"]

@@ -2,7 +2,8 @@
 
 from .config import MLBagConfig
 from .seeding import get_seed_state, seed_everything
+from .tracking import RunManager
 
 __version__ = "0.1.0"
 
-__all__ = ["__version__", "seed_everything", "get_seed_state", "MLBagConfig"]
+__all__ = ["__version__", "seed_everything", "get_seed_state", "MLBagConfig", "RunManager"]
