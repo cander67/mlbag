@@ -21,7 +21,9 @@ tensorflow = ["tensorflow>=2.16"]
 nlp = ["nltk>=3.8", "gensim>=4.3", "transformers>=4.40"]
 viz = ["seaborn>=0.13", "umap-learn>=0.5"]
 bayesian = ["optuna>=3.6"]
-all = ["mlbag[sklearn,torch,tensorflow,nlp,viz,bayesian]"]
+chem = ["rdkit>=2024.3"]
+remote = ["paramiko>=3.4"]
+all = ["mlbag[sklearn,torch,tensorflow,nlp,viz,bayesian,chem,remote]"]
 
 [dependency-groups]
 dev = ["ruff>=0.14", "pytest>=9.0", "pytest-cov>=7.0", "mypy>=1.19", "scikit-learn>=1.4"]
@@ -55,3 +57,12 @@ ignore = ["E501"]
 [tool.mypy]
 python_version = "3.11"
 ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+# rdkit's bundled .pyi stubs have a syntax error mypy can't parse (non-default arg after
+# default in rdchem.pyi) as of rdkit 2026.3.3 — skip following them rather than crash.
+# follow_imports only affects stub-only packages like rdkit-stubs when paired with
+# follow_imports_for_stubs.
+module = "rdkit.*"
+follow_imports = "skip"
+follow_imports_for_stubs = true

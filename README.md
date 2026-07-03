@@ -35,6 +35,8 @@ Available extras:
 | `nlp` | nltk, gensim, transformers | text preprocessing, embeddings, HF fine-tuning |
 | `viz` | seaborn, umap-learn | extra plotting backends (embedding scatter) |
 | `bayesian` | optuna | Bayesian hyperparameter search |
+| `chem` | rdkit | SMILES featurization (fingerprints, descriptors) |
+| `remote` | paramiko | driving remote MD/QM jobs over SSH |
 | `all` | everything above | quick local experimentation |
 
 For local development on `mlbag` itself:
@@ -154,6 +156,60 @@ history = run_training(
     epochs=20, run=run, class_names=class_names, checkpoint_every=5,
 )
 ```
+
+### `mlbag.cheminformatics` — SMILES featurization
+
+Requires the `chem` extra.
+
+```python
+from mlbag.cheminformatics import canonicalize_smiles, morgan_fingerprints, rdkit_descriptors
+
+smiles = canonicalize_smiles(raw_smiles)
+fingerprints = morgan_fingerprints(smiles, radius=2, n_bits=2048)
+descriptors = rdkit_descriptors(smiles, descriptors=["MolWt", "TPSA"])
+```
+
+### `mlbag.remote.SSHJobRunner` — remote job execution over SSH
+
+Requires the `remote` extra. For submitting compute jobs (MD, QM, anything CLI-driven) to
+a machine reachable over SSH, e.g. a WSL box on the LAN:
+
+```python
+from mlbag.remote import SSHJobRunner
+
+runner = SSHJobRunner(host="wsl-box.local", user="cyrus", key_path="~/.ssh/id_ed25519",
+                       remote_workdir="/home/cyrus/jobs")
+result, outputs = runner.run_job(
+    "lammps -in job.lammps",
+    inputs=["job.lammps"], outputs=["/home/cyrus/jobs/log.lammps"],
+    local_output_dir="artifacts/md_runs/001",
+)
+result.ok, result.stdout
+```
+
+A fresh SSH connection is opened per call rather than held open, since jobs are submitted
+infrequently relative to connection overhead — this also keeps the class trivially
+mockable in tests (`patch("paramiko.SSHClient")`).
+
+### `mlbag.active_learning` — pool-based active learning loop
+
+Framework-agnostic; no extra required beyond numpy.
+
+```python
+from mlbag.active_learning import run_active_learning_loop, uncertainty_sampling
+
+history = run_active_learning_loop(
+    model_fn=lambda: MyRegressor(),
+    acquisition_fn=lambda model, pool_X: uncertainty_sampling(model.predict_std(pool_X), k=5),
+    pool_X=pool_X, oracle_fn=label_new_points,
+    initial_X=X_train, initial_y=y_train, n_iterations=10, query_size=5, run=run,
+)
+history.n_labeled, history.score  # learning curve
+```
+
+`oracle_fn` can be anything that returns labels for queried points — a lookup table, a
+real simulation, or a hybrid that checks a lookup table first and falls back to computing
+(e.g. via `mlbag.remote.SSHJobRunner`) when a point has no known label.
 
 ## Development
 
