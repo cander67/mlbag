@@ -139,11 +139,21 @@ top_bigrams = get_top_ngram(corpus, n=2, top_k=10)
 
 ### `mlbag.training` — generic supervised training loops
 
-`mlbag.training.torch_loop.run_training` and `mlbag.training.keras_loop.run_training`
-provide a matching API for a plain single-model supervised train/val loop: epoch looping,
-per-epoch metric logging, checkpointing, and early stopping, wired to a `RunManager` when
-given one. GAN-style multi-optimizer loops are out of scope — write those by hand and use
+`mlbag.training.torch_loop.run_training` (requires `torch`) and
+`mlbag.training.keras_loop.run_training` (requires `tensorflow`) provide a matching API
+for a plain single-model supervised train/val loop: epoch looping, per-epoch metric
+logging, checkpointing, and early stopping, wired to a `RunManager` when given one.
+GAN-style multi-optimizer loops are out of scope — write those by hand and use
 `RunManager` directly for checkpointing/metrics.
+
+```python
+from mlbag.training.keras_loop import run_training
+
+history = run_training(
+    model, (X_train, y_train), (X_val, y_val),
+    epochs=20, run=run, class_names=class_names, checkpoint_every=5,
+)
+```
 
 ## Development
 
