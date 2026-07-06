@@ -177,11 +177,11 @@ a machine reachable over SSH, e.g. a WSL box on the LAN:
 ```python
 from mlbag.remote import SSHJobRunner
 
-runner = SSHJobRunner(host="wsl-box.local", user="cyrus", key_path="~/.ssh/id_ed25519",
-                       remote_workdir="/home/cyrus/jobs")
+runner = SSHJobRunner(host="wsl-box.local", user="your_name", key_path="~/.ssh/id_abcd",
+                       remote_workdir="/home/your_name/jobs")
 result, outputs = runner.run_job(
     "lammps -in job.lammps",
-    inputs=["job.lammps"], outputs=["/home/cyrus/jobs/log.lammps"],
+    inputs=["job.lammps"], outputs=["/home/your_name/jobs/log.lammps"],
     local_output_dir="artifacts/md_runs/001",
 )
 result.ok, result.stdout
