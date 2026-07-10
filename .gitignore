@@ -10,6 +10,7 @@ venv/
 !.env.example
 .pytest_cache/
 .coverage
+.claude
 htmlcov/
 .ruff_cache/
 .mypy_cache/
